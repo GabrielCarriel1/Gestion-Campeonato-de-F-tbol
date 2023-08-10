@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fechaInicioInput = document.querySelector("#id-fecha-inicio");
   fechaInicioInput.valueAsDate = new Date(); // Establece la fecha actual
 });
-
+// Crear Campeonato
 document
   .querySelector("#form-crear-campeonato")
   .addEventListener("submit", (event) => {
