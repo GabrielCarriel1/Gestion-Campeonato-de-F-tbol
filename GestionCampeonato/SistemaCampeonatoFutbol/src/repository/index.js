@@ -1,3 +1,12 @@
+// Verificar la sesión antes de cargar el contenido de la página
+document.addEventListener("DOMContentLoaded", () => {
+  const usuarioLogueado = JSON.parse(sessionStorage.getItem("login_success"));
+
+  if (!usuarioLogueado) {
+    window.location = "pag-principal.html";
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const fechaInicioInput = document.querySelector("#id-fecha-inicio");
   fechaInicioInput.valueAsDate = new Date(); // Establece la fecha actual
