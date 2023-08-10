@@ -1,7 +1,10 @@
-let maxEquipos = 0;
+document.addEventListener("DOMContentLoaded", () => {
+  const fechaInicioInput = document.querySelector("#id-fecha-inicio");
+  fechaInicioInput.valueAsDate = new Date(); // Establece la fecha actual
+});
 
 document
-  .getElementById("#form-crear-campeonato")
+  .querySelector("#form-crear-campeonato")
   .addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -20,21 +23,15 @@ document
     const campeonato = {
       nombre: nombreCampeonato,
       equipos: numeroEquipos,
-      fechaInicio: fechaInicio,
-      fechaFin: fechaFin,
+      fechaInicio,
+      fechaFin,
     };
 
     const campeonatosRegistrados =
       JSON.parse(localStorage.getItem("campeonatos")) || [];
-
     campeonatosRegistrados.push(campeonato);
 
     localStorage.setItem("campeonatos", JSON.stringify(campeonatosRegistrados));
 
-    // Almacenar la cantidad máxima de equipos para utilizarla en el formulario de registro de equipos
-    maxEquipos = numeroEquipos;
-
     window.location.href = "crear-equipos.html";
   });
-
-setItem();

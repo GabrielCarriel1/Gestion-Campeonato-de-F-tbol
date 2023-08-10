@@ -1,19 +1,25 @@
-const login = document.querySelector("#form-login");
-login.addEventListener("submit", (event) => {
+const loginForm = document.querySelector("#form-login");
+
+loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
+
   const username = document.querySelector("#id-email").value;
   const password = document.querySelector("#id-password").value;
 
-  const cuenta = JSON.parse(localStorage.getItem("usuarios")) || [];
-  const cuentasRegistrada = cuenta.find(
-    (cuenta) => cuenta.username == username && cuenta.password == password
+  const cuentasAlmacenadas = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  const cuentaEncontrada = cuentasAlmacenadas.find(
+    (cuenta) => cuenta.username === username && cuenta.password === password
   );
-  if (!cuentasRegistrada) {
+
+  if (!cuentaEncontrada) {
     const mensajeError = document.querySelector("#login-mensaje-error");
     mensajeError.textContent = "Correo o Contraseña Incorrectos!";
   } else {
-    localStorage.setItem("login_success", JSON.stringify(cuentasRegistrada));
-    localStorage.setItem("nombreUsuario", cuentasRegistrada.username);
+    sessionStorage.setItem("login_success", JSON.stringify(cuentaEncontrada));
+    localStorage.setItem("nombreUsuario", cuentaEncontrada.username);
+    localStorage.setItem("contraseña", cuentaEncontrada.password);
+
     window.location.href = "index.html";
   }
 });
