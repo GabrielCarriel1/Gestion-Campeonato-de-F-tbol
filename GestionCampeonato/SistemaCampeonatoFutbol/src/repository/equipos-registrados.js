@@ -1,4 +1,13 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const usuarioLogueado = JSON.parse(sessionStorage.getItem("login_success"));
+
+  if (!usuarioLogueado) {
+    window.location = "pag-principal.html";
+  }
+});
+
 const formRegistrarEquipos = document.querySelector("#form-registrar-equipos");
+
 const listaEquiposRegistrados = document.getElementById("equipos-registrados");
 
 formRegistrarEquipos.addEventListener("submit", function (event) {
