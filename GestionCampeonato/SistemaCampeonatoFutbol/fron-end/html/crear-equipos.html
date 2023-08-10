@@ -126,17 +126,6 @@
               </ul>
             </div>
             <div class="d-grid mt-3">
-              <a
-                href="#"
-                class="btn btn-secondary"
-                data-bs-toggle="modal"
-                data-bs-target="#modalEquipos"
-                data-bs-backdrop="false"
-              >
-                Editar Lista de Equipos
-              </a>
-            </div>
-            <div class="d-grid mt-3">
               <button type="button" class="btn btn-primary">
                 Fase de Grupos
               </button>
@@ -145,42 +134,9 @@
         </div>
       </div>
     </div>
-
-    <!-- Modal -->
-    <div
-      class="modal fade custom-modal"
-      id="modalEquipos"
-      tabindex="-1"
-      aria-labelledby="modalEquiposLabel"
-      data-keyboard="false"
-      data-backdrop="static"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalEquiposLabel">
-              Lista de Equipos Registrados
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Cerrar"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <ul id="equipos-registrados-modal" class="list-group">
-              <!-- Aquí se mostrará la lista de equipos registrados en el modal -->
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/GestionCampeonato/SistemaCampeonatoFutbol/src/repository/equipos-registrados.js
     "></script>
     <script src="../js/sede-ciudades.js"></script>
-    <script src="../js/modal-equipos.js"></script>
   </body>
 </html>
