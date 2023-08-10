@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Equipos</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <!-- Columna del Formulario -->
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title text-center">Registro de Equipos</h2>
+              <form id="form-registrar-equipos">
+                <!-- ... (resto del formulario) ... -->
+                <div class="mb-3">
+                  <label for="escudo-equipo" class="form-label"
+                    >Escudo del Equipo</label
+                  >
+                  <input
+                    type="file"
+                    accept="image"
+                    class="form-control"
+                    id="id-escudo-equipo"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="sede" class="form-label">Sede</label>
+                  <select
+                    class="form-select"
+                    id="id-sede"
+                    aria-label="seleccionar sede"
+                    required
+                  >
+                    <option value="" disabled selected>
+                      Selecciona una sede
+                    </option>
+                    <option value="pichincha">Pichincha</option>
+                    <option value="guayas">Guayas</option>
+                    <option value="eloro">El Oro</option>
+                    <option value="manabi">Manabí</option>
+                    <option value="esmeraldas">Esmeraldas</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="ciudad" class="form-label">Ciudad</label>
+                  <select
+                    class="form-select"
+                    name="ciudad"
+                    id="id-ciudad"
+                    aria-label="Selecciona la ciudad"
+                    required
+                  >
+                    <option value="" disabled selected>
+                      Selecciona una ciudad
+                    </option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="nombreEquipo" class="form-label"
+                    >Nombre del Equipo</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nombre-equipo"
+                    placeholder="Ingresa el Nombre del Equipo"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="uniforme" class="form-label"
+                    >Color del Uniforme</label
+                  >
+                  <div class="d-flex align-items-center">
+                    <input type="color" id="color-equipo" class="me-2" />
+                    <div
+                      id="color-preview"
+                      style="width: 30px; height: 30px; border-radius: 50%"
+                    ></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="categoria" class="form-label">Categoría</label>
+                  <select
+                    class="form-select"
+                    name="categoria"
+                    id="id-categoria"
+                    aria-label="Selecciona una categoría"
+                  >
+                    <option value="" disabled selected>
+                      Selecciona una Categoría
+                    </option>
+                    <option value="sub-15">Sub-15</option>
+                    <option value="sub-16">Sub-16</option>
+                    <option value="sub-17">Sub-17</option>
+                    <option value="sub-18">Sub-18</option>
+                    <option value="sub-19">Sub-19</option>
+                    <option value="sub-20">Sub-20</option>
+                  </select>
+                </div>
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">
+                    Registrar Equipo
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna de Equipos Registrados -->
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title text-center">Equipos Registrados</h2>
+              <ul id="equipos-registrados" class="list-group">
+                <!-- Los equipos registrados se mostrarán aquí -->
+              </ul>
+            </div>
+            <div class="d-grid mt-3">
+              <a
+                href="#"
+                class="btn btn-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEquipos"
+                data-bs-backdrop="false"
+              >
+                Editar Lista de Equipos
+              </a>
+            </div>
+            <div class="d-grid mt-3">
+              <button type="button" class="btn btn-primary">
+                Fase de Grupos
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade custom-modal"
+      id="modalEquipos"
+      tabindex="-1"
+      aria-labelledby="modalEquiposLabel"
+      data-keyboard="false"
+      data-backdrop="static"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalEquiposLabel">
+              Lista de Equipos Registrados
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <ul id="equipos-registrados-modal" class="list-group">
+              <!-- Aquí se mostrará la lista de equipos registrados en el modal -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/GestionCampeonato/SistemaCampeonatoFutbol/src/repository/equipos-registrados.js
+    "></script>
+    <script src="../js/sede-ciudades.js"></script>
+    <script src="../js/modal-equipos.js"></script>
+  </body>
+</html>
