@@ -130,28 +130,28 @@ document.addEventListener("DOMContentLoaded", () => {
         "list-group-item d-flex justify-content-between align-items-center";
 
       // Crear elementos para mostrar información del equipo
-      const equipoInfo = document.createElement("span");
-      equipoInfo.textContent = equipo.nombre;
-
       const imagenEquipo = document.createElement("img");
       imagenEquipo.src = equipo.imagen;
       imagenEquipo.alt = "Escudo del Equipo";
       imagenEquipo.style.maxHeight = "50px";
       imagenEquipo.style.borderRadius = "50%";
 
+      const equipoInfo = document.createElement("span");
+      equipoInfo.textContent = equipo.nombre;
+
       const botonesContainer = document.createElement("div");
       botonesContainer.classList.add("d-flex");
 
       const botonJugadores = document.createElement("button");
       botonJugadores.textContent = "Jugadores";
-      botonJugadores.classList.add("btn", "btn-info", "me-2");
+      botonJugadores.classList.add("btn", "btn-info", "btn-sm", "me-2"); // Agregamos "btn-sm" para botón pequeño
       botonJugadores.addEventListener("click", function () {
         abrirModalRegistroJugador(equipo.nombre);
       });
 
       const botonEliminar = document.createElement("button");
       botonEliminar.textContent = "Eliminar";
-      botonEliminar.classList.add("btn", "btn-danger");
+      botonEliminar.classList.add("btn", "btn-danger", "btn-sm"); // Agregamos "btn-sm" para botón pequeño
       botonEliminar.addEventListener("click", function () {
         eliminarEquipo(index);
       });
@@ -159,15 +159,14 @@ document.addEventListener("DOMContentLoaded", () => {
       botonesContainer.appendChild(botonJugadores);
       botonesContainer.appendChild(botonEliminar);
 
-      nuevoEquipo.appendChild(equipoInfo);
       nuevoEquipo.appendChild(imagenEquipo);
+      nuevoEquipo.appendChild(equipoInfo);
       nuevoEquipo.appendChild(botonesContainer);
 
       listaEquiposRegistrados.appendChild(nuevoEquipo);
     });
   }
 
-  // Agregar evento al botón de generar enfrentamientos
   btnEnfrentamiento.addEventListener("click", () => {
     const equipos = JSON.parse(localStorage.getItem("equipos")) || [];
     const campeonatos = JSON.parse(localStorage.getItem("campeonatos")) || [];
@@ -177,60 +176,77 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const campeonatoActual = campeonatos[campeonatos.length - 1];
-    const fechaInicioCampeonato = new Date(campeonatoActual.fechaInicio);
-    const fechaFinCampeonato = new Date(campeonatoActual.fechaFin);
-
-    if (isNaN(fechaInicioCampeonato) || isNaN(fechaFinCampeonato)) {
-      alert("Error: Las fechas del campeonato no son válidas.");
+    const cantidadEquipos = equipos.length;
+    if (cantidadEquipos < 2) {
+      alert("Error: No hay suficientes equipos para generar enfrentamientos.");
       return;
     }
 
-    const cantidadEnfrentamientos = equipos.length / 2;
-    const intervaloEnfrentamientos =
-      (fechaFinCampeonato - fechaInicioCampeonato) / cantidadEnfrentamientos;
+    const equiposDisponibles = JSON.parse(JSON.stringify(equipos));
 
-    // Limpiar el contenido anterior de la tabla
     tablaEnfrentamientos.innerHTML = "";
 
-    // Generar los enfrentamientos y agregarlos a la tabla
-    let fechaEnfrentamientoActual = new Date(fechaInicioCampeonato);
-    for (let i = 0; i < cantidadEnfrentamientos; i++) {
-      const enfrentamientoRow = document.createElement("tr");
-      enfrentamientoRow.innerHTML = `
-      <td>${fechaEnfrentamientoActual.toISOString().substr(0, 10)}</td>
-      <td>${equipos[i].nombre || "Equipo"}</td>
-      <td class="vs">VS</td>
-      <td>${equipos[i + 1].nombre || "Equipo"}</td>
-      <td><input type="number" class="goles-equipo-a" placeholder="Goles" min="0"></td>
-      <td class="vs">-</td>
-      <td><input type="number" class="goles-equipo-b" placeholder="Goles" min="0"></td>
-      <td><input type="number" class="tarjetas-amarillas-input" placeholder="Tar. Amar"></td>
-      <td><input type="number" class="tarjetas-rojas-input" placeholder="Tar. Roj"></td>
-      <td><input type="text" class="jugadores-expulsados-input" placeholder="Explsds"></td>
-      `;
-      tablaEnfrentamientos.appendChild(enfrentamientoRow);
+    const intervaloEnfrentamientos = 24 * 60 * 60 * 1000;
+    let fechaEnfrentamientoActual = new Date();
 
-      // Incrementar la fecha del enfrentamiento actual según el intervalo
-      fechaEnfrentamientoActual = new Date(
-        fechaEnfrentamientoActual.getTime() + intervaloEnfrentamientos
-      );
+    for (let i = 0; i < cantidadEquipos - 1; i++) {
+      for (let j = i + 1; j < cantidadEquipos; j++) {
+        const equipoLocalIndex = Math.floor(
+          Math.random() * equiposDisponibles.length
+        );
+        const equipoLocal = equiposDisponibles.splice(equipoLocalIndex, 1)[0];
+
+        const equipoVisitanteIndex = Math.floor(
+          Math.random() * equiposDisponibles.length
+        );
+        const equipoVisitante = equiposDisponibles.splice(
+          equipoVisitanteIndex,
+          1
+        )[0];
+
+        const enfrentamientoRow = document.createElement("tr");
+        enfrentamientoRow.innerHTML = `
+          <td>${fechaEnfrentamientoActual.toISOString().substr(0, 10)}</td>
+          <td>${equipoLocal.nombre || "Equipo"}</td>
+          <td class="vs">VS</td>
+          <td>${equipoVisitante.nombre || "Equipo"}</td>
+          <td><input type="number" class="goles-equipo-a" placeholder="Goles" min="0"></td>
+          <td class="vs">-</td>
+          <td><input type="number" class="goles-equipo-b" placeholder="Goles" min="0"></td>
+          <td><input type="number" class="tarjetas-amarillas-local-input" placeholder="Tar. Amar" min="0"></td>
+          <td><input type="number" class="tarjetas-amarillas-visitante-input" placeholder="Tar. Amar" min="0"></td>
+          <td><input type="number" class="tarjetas-rojas-local-input" placeholder="Tar. Roj" min="0"></td>
+          <td><input type="number" class="tarjetas-rojas-visitante-input" placeholder="Tar. Roj" min="0"></td>
+          <td><input type="text" class="jugadores-expulsados-input" placeholder="Explsds"></td>
+        `;
+
+        tablaEnfrentamientos.appendChild(enfrentamientoRow);
+
+        fechaEnfrentamientoActual = new Date(
+          fechaEnfrentamientoActual.getTime() + intervaloEnfrentamientos
+        );
+      }
     }
 
-    // Mostrar el modal
     modal.show();
   });
 
-  // Agregar evento al botón de registrar resultados
   btnRegistrarResultados.addEventListener("click", () => {
     // Obtener valores de los inputs
     const golesEquipoAInputs = document.querySelectorAll(".goles-equipo-a");
     const golesEquipoBInputs = document.querySelectorAll(".goles-equipo-b");
-    const tarjetasAmarillasInputs = document.querySelectorAll(
-      ".tarjetas-amarillas-input"
+    const tarjetasAmarillasLocal = document.querySelectorAll(
+      ".tarjetas-amarillas-local-input"
     );
-    const tarjetasRojasInputs = document.querySelectorAll(
-      ".tarjetas-rojas-input"
+    const tarjetasAmarillasVisitante = document.querySelectorAll(
+      ".tarjetas-amarillas-visitante-input"
+    );
+
+    const tarjetasRojasLocal = document.querySelectorAll(
+      ".tarjetas-rojas-local-input"
+    );
+    const tarjetasRojasVisitante = document.querySelectorAll(
+      ".tarjetas-rojas-visitante-input"
     );
     const jugadoresExpulsadosInputs = document.querySelectorAll(
       ".jugadores-expulsados-input"
@@ -252,8 +268,10 @@ document.addEventListener("DOMContentLoaded", () => {
         equipoB: tablaEnfrentamientos.rows[index].cells[3].textContent,
         golesEquipoA: golesEquipoA,
         golesEquipoB: golesEquipoB,
-        tarjetasAmarillas: tarjetasAmarillasInputs[index].value,
-        tarjetasRojas: tarjetasRojasInputs[index].value,
+        tarjetasAmarillasLocal: tarjetasAmarillasLocal[index].value,
+        tarjetasAmarillasVisitante: tarjetasAmarillasVisitante[index].value,
+        tarjetasRojasLocal: tarjetasRojasLocal[index].value,
+        tarjetasRojasVisitante: tarjetasRojasVisitante[index].value,
         jugadoresExpulsados: jugadoresExpulsadosInputs[index].value,
       };
 
@@ -314,12 +332,35 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       }, 0);
 
+      const tarjetasAmarillas = partidosEquipo.reduce(
+        (totalAmarillas, partido) => {
+          return (
+            totalAmarillas +
+            (equipo.nombre === partido.equipoA
+              ? partido.tarjetasAmarillasLocal
+              : partido.tarjetasAmarillasVisitante)
+          );
+        },
+        0
+      );
+
+      const tarjetasRojas = partidosEquipo.reduce((totalRojas, partido) => {
+        return (
+          totalRojas +
+          (equipo.nombre === partido.equipoA
+            ? partido.tarjetasRojasLocal
+            : partido.tarjetasRojasVisitante)
+        );
+      }, 0);
+
       return {
         nombre: equipo.nombre,
         escudo: equipo.imagen,
         partidosJugados: partidosEquipo.length,
         puntos: puntos,
         goles: goles,
+        tarjetasAmarillas: parseInt(tarjetasAmarillas),
+        tarjetasRojas: parseInt(tarjetasRojas),
       };
     });
 
@@ -331,11 +372,13 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${index + 1}</td>
         <td><img src="${
           equipo.escudo
-        }" alt="Escudo del Equipo" width="30" height="30"></td>
+        }" alt="Escudo del Equipo" width="60" height="60"></td>
         <td>${equipo.nombre}</td>
         <td>${equipo.partidosJugados}</td>
         <td>${equipo.goles}</td>
         <td>${equipo.puntos}</td>
+        <td>${equipo.tarjetasAmarillas}</td>
+        <td>${equipo.tarjetasRojas}</td>
       `;
       tablaPosiciones.appendChild(fila);
     });
@@ -345,7 +388,6 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.show();
   }
 
-  // Cargar la lista de equipos al cargar la página
   window.onload = () => {
     actualizarListaEquipos();
   };

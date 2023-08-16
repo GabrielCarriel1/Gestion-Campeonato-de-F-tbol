@@ -1,8 +1,8 @@
 class LoginForm {
   constructor() {
     this.loginForm = document.querySelector("#form-login");
-    this.usernameInput = document.querySelector("#id-email");
-    this.passwordInput = document.querySelector("#id-password");
+    this.usernameInput = document.querySelector("#id-logemail");
+    this.passwordInput = document.querySelector("#id-logpass");
     this.errorMessage = document.querySelector("#login-mensaje-error");
     this.cuentasAlmacenadas =
       JSON.parse(localStorage.getItem("usuarios")) || [];
@@ -13,13 +13,13 @@ class LoginForm {
   handleLogin(event) {
     event.preventDefault();
 
-    const username = this.usernameInput.value;
+    const email = this.usernameInput.value;
     const password = this.passwordInput.value;
 
     const cuentaEncontrada = this.cuentasAlmacenadas.find(
-      (cuenta) => cuenta.username === username && cuenta.password === password
+      (cuenta) => cuenta.email === email && cuenta.password === password
     );
-
+    console.log(cuentaEncontrada);
     if (!cuentaEncontrada) {
       this.displayErrorMessage("Correo o Contraseña Incorrectos!");
     } else {
@@ -34,7 +34,7 @@ class LoginForm {
 
   storeLoginInfo(cuenta) {
     sessionStorage.setItem("login_success", JSON.stringify(cuenta));
-    localStorage.setItem("nombreUsuario", cuenta.username);
+    localStorage.setItem("email", cuenta.email);
     localStorage.setItem("contraseña", cuenta.password);
   }
 

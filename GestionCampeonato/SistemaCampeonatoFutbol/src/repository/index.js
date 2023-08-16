@@ -1,16 +1,9 @@
+// Clase Campeonato (sin el método guardarEnLocalStorage)
 class Campeonato {
-  constructor(nombre, numeroEquipos, fechaInicio, fechaFin) {
+  constructor(nombre, fechaInicio, fechaFin) {
     this.nombre = nombre;
-    this.numeroEquipos = numeroEquipos;
     this.fechaInicio = fechaInicio;
     this.fechaFin = fechaFin;
-  }
-
-  guardarEnLocalStorage() {
-    const campeonatosRegistrados =
-      JSON.parse(localStorage.getItem("campeonatos")) || [];
-    campeonatosRegistrados.push(this);
-    localStorage.setItem("campeonatos", JSON.stringify(campeonatosRegistrados));
   }
 }
 
@@ -44,7 +37,10 @@ document
     }
 
     const campeonato = new Campeonato(nombreCampeonato, fechaInicio, fechaFin);
-    campeonato.guardarEnLocalStorage();
+    const campeonatosRegistrados =
+      JSON.parse(localStorage.getItem("campeonatos")) || [];
+    campeonatosRegistrados.push(campeonato);
+    localStorage.setItem("campeonatos", JSON.stringify(campeonatosRegistrados));
 
     window.location.href = "crear-equipos.html";
   });

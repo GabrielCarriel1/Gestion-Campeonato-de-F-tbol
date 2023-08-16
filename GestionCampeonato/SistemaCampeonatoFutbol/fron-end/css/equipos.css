@@ -1,0 +1,15 @@
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-group-item img {
+  max-height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.list-group-item span {
+  flex: 1;
+}

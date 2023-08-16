@@ -4,12 +4,14 @@
 }
 /* Estilo para los campos de entrada en la tabla */
 .resultado-input,
-.tarjetas-amarillas-input,
-.tarjetas-rojas-input,
+.tarjetas-amarillas-local-input,
+.tarjetas-amarillas-visitante-input,
+.tarjetas-rojas-local-input,
+.tarjetas-rojas-visitante-input,
 .jugadores-expulsados-input,
 .goles-equipo-a,
 .goles-equipo-b {
-  width: 150px; /* Ajusta el ancho según tus necesidades */
+  width: 100px; /* Ajusta el ancho según tus necesidades */
 }
 .custom-button {
   /* Ajusta el ancho automáticamente */
@@ -18,4 +20,7 @@
 }
 .custom-modal-ancho {
   max-width: 1500px; /* Cambia este valor según tus necesidades */
+}
+.custom-modal2-ancho {
+  max-width: 1200px; /* Cambia este valor según tus necesidades */
 }

@@ -1,9 +1,9 @@
 class RegistroForm {
   constructor() {
-    this.registroForm = document.querySelector("#form-registro");
-    this.usernameInput = document.querySelector("#id-username");
-    this.emailInput = document.querySelector("#id-email");
-    this.passwordInput = document.querySelector("#id-password");
+    this.registroForm = document.querySelector("#registrationForm");
+    this.usernameInput = document.querySelector("#logname");
+    this.emailInput = document.querySelector("#logemail");
+    this.passwordInput = document.querySelector("#logpass");
     this.mensajeError = document.querySelector("#mensaje-error");
     this.usuariosRegistrados =
       JSON.parse(localStorage.getItem("usuarios")) || [];
@@ -48,7 +48,7 @@ class RegistroForm {
   }
 
   redirectToLoginPage() {
-    window.location.href = "login.html";
+    window.location.href = "sesion.html";
   }
 }
 
