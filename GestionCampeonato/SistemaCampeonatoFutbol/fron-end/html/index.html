@@ -8,11 +8,12 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" href="../../fron-end/css/nombreUsuario.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <span class="navbar-brand">Sistema de Registro y Gestión</span>
+        <span class="navbar-brand">Creacion del Campeonato</span>
         <div class="collapse navbar-collapse justify-content-end">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -41,22 +42,6 @@
                     name="nombre"
                     placeholder="Ingresa el Nombre del Campeonato"
                     required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="registroEquipo" class="form-label"
-                    >Numero de Equipos</label
-                  >
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="id-registro-equipo"
-                    name="registroEquipo"
-                    placeholder="Ingrese el Numero de Equipos"
-                    required
-                    min="2"
-                    max="26"
                   />
                 </div>
 
@@ -105,5 +90,20 @@
     </div>
     <script src="/GestionCampeonato/SistemaCampeonatoFutbol/src/repository/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Después de cargar el archivo "bootstrap.bundle.min.js" -->
+    <script>
+      // Función para actualizar el nombre de usuario en la barra de navegación
+      function actualizarNombreUsuario() {
+        const bienvenidoUsuario = document.getElementById("bienvenidoUsuario");
+        const nombreUsuario = localStorage.getItem("nombreUsuario");
+
+        if (nombreUsuario) {
+          bienvenidoUsuario.textContent = `Bienvenido, ${nombreUsuario}`;
+        }
+      }
+
+      // Llama a la función para actualizar el nombre de usuario
+      actualizarNombreUsuario();
+    </script>
   </body>
 </html>

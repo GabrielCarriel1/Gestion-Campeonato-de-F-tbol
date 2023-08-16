@@ -1,25 +1,46 @@
-const loginForm = document.querySelector("#form-login");
+class LoginForm {
+  constructor() {
+    this.loginForm = document.querySelector("#form-login");
+    this.usernameInput = document.querySelector("#id-email");
+    this.passwordInput = document.querySelector("#id-password");
+    this.errorMessage = document.querySelector("#login-mensaje-error");
+    this.cuentasAlmacenadas =
+      JSON.parse(localStorage.getItem("usuarios")) || [];
 
-loginForm.addEventListener("submit", (event) => {
-  event.preventDefault();
+    this.loginForm.addEventListener("submit", this.handleLogin.bind(this));
+  }
 
-  const username = document.querySelector("#id-email").value;
-  const password = document.querySelector("#id-password").value;
+  handleLogin(event) {
+    event.preventDefault();
 
-  const cuentasAlmacenadas = JSON.parse(localStorage.getItem("usuarios")) || [];
+    const username = this.usernameInput.value;
+    const password = this.passwordInput.value;
 
-  const cuentaEncontrada = cuentasAlmacenadas.find(
-    (cuenta) => cuenta.username === username && cuenta.password === password
-  );
+    const cuentaEncontrada = this.cuentasAlmacenadas.find(
+      (cuenta) => cuenta.username === username && cuenta.password === password
+    );
 
-  if (!cuentaEncontrada) {
-    const mensajeError = document.querySelector("#login-mensaje-error");
-    mensajeError.textContent = "Correo o Contraseña Incorrectos!";
-  } else {
-    sessionStorage.setItem("login_success", JSON.stringify(cuentaEncontrada));
-    localStorage.setItem("nombreUsuario", cuentaEncontrada.username);
-    localStorage.setItem("contraseña", cuentaEncontrada.password);
+    if (!cuentaEncontrada) {
+      this.displayErrorMessage("Correo o Contraseña Incorrectos!");
+    } else {
+      this.storeLoginInfo(cuentaEncontrada);
+      this.redirectToMainPage();
+    }
+  }
 
+  displayErrorMessage(message) {
+    this.errorMessage.textContent = message;
+  }
+
+  storeLoginInfo(cuenta) {
+    sessionStorage.setItem("login_success", JSON.stringify(cuenta));
+    localStorage.setItem("nombreUsuario", cuenta.username);
+    localStorage.setItem("contraseña", cuenta.password);
+  }
+
+  redirectToMainPage() {
     window.location.href = "index.html";
   }
-});
+}
+
+const loginFormInstance = new LoginForm();

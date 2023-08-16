@@ -1,28 +1,55 @@
-const registro = document.querySelector("#form-registro");
-registro.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const username = document.querySelector("#id-username");
-  const email = document.querySelector("#id-email");
-  const password = document.querySelector("#id-password");
+class RegistroForm {
+  constructor() {
+    this.registroForm = document.querySelector("#form-registro");
+    this.usernameInput = document.querySelector("#id-username");
+    this.emailInput = document.querySelector("#id-email");
+    this.passwordInput = document.querySelector("#id-password");
+    this.mensajeError = document.querySelector("#mensaje-error");
+    this.usuariosRegistrados =
+      JSON.parse(localStorage.getItem("usuarios")) || [];
 
-  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-  const usuariosRegistrados = usuarios.find(
-    (usuario) => usuario.email === email.value
-  );
+    this.registroForm.addEventListener(
+      "submit",
+      this.handleRegistro.bind(this)
+    );
+  }
 
-  const mensajeError = document.querySelector("#mensaje-error");
+  handleRegistro(event) {
+    event.preventDefault();
 
-  if (usuariosRegistrados !== undefined) {
-    mensajeError.textContent = "Este correo electrónico ya está registrado.";
-  } else {
-    usuarios.push({
-      username: username.value,
-      email: email.value,
-      password: password.value,
-    });
+    const email = this.emailInput.value;
+    const usuarioExistente = this.usuariosRegistrados.find(
+      (usuario) => usuario.email === email
+    );
 
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    if (usuarioExistente) {
+      this.displayErrorMessage("Este correo electrónico ya está registrado.");
+    } else {
+      this.registerNewUser();
+    }
+  }
+
+  displayErrorMessage(message) {
+    this.mensajeError.textContent = message;
+  }
+
+  registerNewUser() {
+    const nuevoUsuario = {
+      username: this.usernameInput.value,
+      email: this.emailInput.value,
+      password: this.passwordInput.value,
+    };
+
+    this.usuariosRegistrados.push(nuevoUsuario);
+    localStorage.setItem("usuarios", JSON.stringify(this.usuariosRegistrados));
+    localStorage.setItem("nombreUsuario", nuevoUsuario.username);
+
+    this.redirectToLoginPage();
+  }
+
+  redirectToLoginPage() {
     window.location.href = "login.html";
   }
-  localStorage.setItem("nombreUsuario", username.value);
-});
+}
+
+const registroFormInstance = new RegistroForm();

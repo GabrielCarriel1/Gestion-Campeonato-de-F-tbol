@@ -1,0 +1,21 @@
+/* Estilo personalizado para el modal más ancho */
+.custom-modal-lg {
+  max-width: 800px; /* Ajusta este valor según tus necesidades */
+}
+/* Estilo para los campos de entrada en la tabla */
+.resultado-input,
+.tarjetas-amarillas-input,
+.tarjetas-rojas-input,
+.jugadores-expulsados-input,
+.goles-equipo-a,
+.goles-equipo-b {
+  width: 150px; /* Ajusta el ancho según tus necesidades */
+}
+.custom-button {
+  /* Ajusta el ancho automáticamente */
+  max-width: 90%; /* Define el ancho máximo deseado */
+  margin-left: 30px;
+}
+.custom-modal-ancho {
+  max-width: 1500px; /* Cambia este valor según tus necesidades */
+}

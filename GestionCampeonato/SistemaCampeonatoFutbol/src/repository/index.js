@@ -1,4 +1,19 @@
-// Verificar la sesión antes de cargar el contenido de la página
+class Campeonato {
+  constructor(nombre, numeroEquipos, fechaInicio, fechaFin) {
+    this.nombre = nombre;
+    this.numeroEquipos = numeroEquipos;
+    this.fechaInicio = fechaInicio;
+    this.fechaFin = fechaFin;
+  }
+
+  guardarEnLocalStorage() {
+    const campeonatosRegistrados =
+      JSON.parse(localStorage.getItem("campeonatos")) || [];
+    campeonatosRegistrados.push(this);
+    localStorage.setItem("campeonatos", JSON.stringify(campeonatosRegistrados));
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const usuarioLogueado = JSON.parse(sessionStorage.getItem("login_success"));
 
@@ -9,8 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const fechaInicioInput = document.querySelector("#id-fecha-inicio");
-  fechaInicioInput.valueAsDate = new Date(); // Establece la fecha actual
+  fechaInicioInput.valueAsDate = new Date();
 });
+
 // Crear Campeonato
 document
   .querySelector("#form-crear-campeonato")
@@ -18,9 +34,7 @@ document
     event.preventDefault();
 
     const nombreCampeonato = document.querySelector("#id-nombre").value;
-    const numeroEquipos = parseInt(
-      document.querySelector("#id-registro-equipo").value
-    );
+
     const fechaInicio = document.querySelector("#id-fecha-inicio").value;
     const fechaFin = document.querySelector("#id-fecha-fin").value;
 
@@ -29,18 +43,8 @@ document
       return;
     }
 
-    const campeonato = {
-      nombre: nombreCampeonato,
-      equipos: numeroEquipos,
-      fechaInicio,
-      fechaFin,
-    };
-
-    const campeonatosRegistrados =
-      JSON.parse(localStorage.getItem("campeonatos")) || [];
-    campeonatosRegistrados.push(campeonato);
-
-    localStorage.setItem("campeonatos", JSON.stringify(campeonatosRegistrados));
+    const campeonato = new Campeonato(nombreCampeonato, fechaInicio, fechaFin);
+    campeonato.guardarEnLocalStorage();
 
     window.location.href = "crear-equipos.html";
   });
